@@ -1,8 +1,8 @@
 # macOS system files 
 .DS_Store
 
-# future processed data
-data/processed/
-
 # python cache 
 __pycache__/ 
+*.pyc
+.env
+.venv/
