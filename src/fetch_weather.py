@@ -1,10 +1,14 @@
 import requests
 import pandas as pd
 from pathlib import Path
-
+from google.cloud import bigquery
 
 LATITUDE = 50.0755
 LONGITUDE = 14.4378
+
+PROJECT_ID = "data-studio-open-meteo"
+DATASET_ID = "weather"
+TABLE_ID = "prague_weather"
 
 URL = "https://api.open-meteo.com/v1/forecast"
 
@@ -24,7 +28,6 @@ PARAMS = {
 def fetch_weather():
     response = requests.get(URL, params=PARAMS)
     response.raise_for_status()
-
     return response.json()
 
 
@@ -42,7 +45,27 @@ def transform_weather(data):
     return df
 
 
-def save_data(df):
+def save_to_bigquery(df):
+    client = bigquery.Client(project=PROJECT_ID)
+
+    table_id = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
+
+    job_config = bigquery.LoadJobConfig(
+        write_disposition="WRITE_TRUNCATE"
+    )
+
+    job = client.load_table_from_dataframe(
+        df,
+        table_id,
+        job_config=job_config,
+    )
+
+    job.result()
+
+    print(f"Loaded {len(df)} rows into {table_id}")
+
+
+def save_csv(df):
     raw_dir = Path("data/raw")
     raw_dir.mkdir(parents=True, exist_ok=True)
 
@@ -50,14 +73,21 @@ def save_data(df):
 
     df.to_csv(output_file, index=False)
 
-    print(f"Saved: {output_file}")
-    print(f"Rows: {len(df)}")
+    print(f"CSV saved: {output_file}")
 
 
 def main():
+    print("Fetching weather data...")
+
     data = fetch_weather()
+
     df = transform_weather(data)
-    save_data(df)
+
+    print(f"Received {len(df)} rows")
+
+    save_csv(df)
+
+    save_to_bigquery(df)
 
     print("\nFirst 5 rows:")
     print(df.head())
