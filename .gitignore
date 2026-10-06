@@ -1,0 +1,8 @@
+# macOS system files 
+.DS_Store
+
+# future processed data
+data/processed/
+
+# python cache 
+__pycache__/ 
