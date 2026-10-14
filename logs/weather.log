@@ -1,0 +1,12 @@
+Fetching weather data...
+Received 168 rows
+CSV saved: data/raw/prague_weather.csv
+Loaded 168 rows into data-studio-open-meteo.weather.prague_weather
+
+First 5 rows:
+           datetime  temperature  humidity  precipitation  wind_speed    city
+0  2026-10-14T00:00         11.0        63            0.0         6.0  Prague
+1  2026-10-14T01:00         11.3        66            0.0         8.2  Prague
+2  2026-10-14T02:00         11.4        75            0.0         8.5  Prague
+3  2026-10-14T03:00         11.6        79            0.1         5.8  Prague
+4  2026-10-14T04:00         11.8        81            0.0         6.1  Prague
