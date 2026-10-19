@@ -10,5 +10,8 @@ __pycache__/
 # virtual environment
 .launchd/
 
-#data files
+# data files
 .data/
+
+# logs
+.logs/
