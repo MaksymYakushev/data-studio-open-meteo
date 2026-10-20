@@ -3,3 +3,10 @@
 2026-10-19 20:21:18,935 INFO No new completed Prague dates to load.
 2026-10-19 20:22:23,361 INFO Latest date in data-studio-open-meteo.weather.prague_actual_weather: 2026-10-18
 2026-10-19 20:22:23,362 INFO No new completed Prague dates to load.
+2026-10-20 19:53:12,769 INFO Latest date in data-studio-open-meteo.weather.prague_actual_weather: 2026-10-18
+2026-10-20 19:53:12,770 INFO Requesting Open-Meteo Archive data from 2026-10-19 through 2026-10-19
+2026-10-20 19:53:12,996 INFO Validated 24 rows across 1 complete day(s).
+2026-10-20 19:53:15,496 INFO Load job 18935b1e-aeb8-4a24-9af4-acec7fc6d7b5 appended 24 rows to data-studio-open-meteo.weather.prague_actual_weather
+2026-10-20 19:53:15,505 INFO Saved 24 appended rows to data/raw/prague_actual_weather.csv
+2026-10-20 19:53:42,135 INFO Latest date in data-studio-open-meteo.weather.prague_actual_weather: 2026-10-19
+2026-10-20 19:53:42,135 INFO No new completed Prague dates to load.
