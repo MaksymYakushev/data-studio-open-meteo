@@ -1,17 +1,23 @@
-# macOS system files 
+# macOS system files
 .DS_Store
 
-# python cache 
-__pycache__/ 
-*.pyc
-.env
-.venv/
+# Python cache
+__pycache__/
+*.py[cod]
 
-# virtual environment
+# Environment variables
+.env
+.env.*
+
+# Virtual environments
+.venv/
+venv/
 .launchd/
 
-# data files
+# Data files
 .data/
 
-# logs
+# Logs
 .logs/
+*.log
+*.log.*
