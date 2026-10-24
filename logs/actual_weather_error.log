@@ -6,3 +6,5 @@
   warnings.warn(
 /Users/maksymyakushev/Documents/Career Practice/GitHub Projects/data-studio-open-meteo/.venv/lib/python3.14/site-packages/google/cloud/bigquery/_pandas_helpers.py:486: FutureWarning: Loading pandas DataFrame into BigQuery will require pandas-gbq package version 0.26.1 or greater in the future. Tried to import pandas-gbq and got: No module named 'pandas_gbq'
   warnings.warn(
+/Users/maksymyakushev/Documents/Career Practice/GitHub Projects/data-studio-open-meteo/.venv/lib/python3.14/site-packages/google/cloud/bigquery/_pandas_helpers.py:486: FutureWarning: Loading pandas DataFrame into BigQuery will require pandas-gbq package version 0.26.1 or greater in the future. Tried to import pandas-gbq and got: No module named 'pandas_gbq'
+  warnings.warn(
