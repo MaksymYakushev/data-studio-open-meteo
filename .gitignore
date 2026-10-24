@@ -1,84 +1,47 @@
+# ─────────────────────────────────────────────
 # macOS
+# ─────────────────────────────────────────────
 .DS_Store
 .AppleDouble
 .LSOverride
 
-# Environment variables / local secrets
+# ─────────────────────────────────────────────
+# Secrets and local environment variables
+# ─────────────────────────────────────────────
 .env
 .env.*
 !.env.example
 !.env.sample
 !.env.template
 
-# Certificates and private keys
-*.pem
-*.key
-*.p12
-*.pfx
-credentials.json
-service-account*.json
-
-# Python bytecode and caches
+# ─────────────────────────────────────────────
+# Python
+# ─────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 
-# Python virtual environments
+# Virtual environments
 .venv/
 venv/
 env/
 ENV/
 
-# Test, lint, and type-check caches
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.pyre/
-.tox/
-.nox/
-.coverage
-.coverage.*
-htmlcov/
 
-# Jupyter
-.ipynb_checkpoints/
-
-# Build and packaging output
-build/
-dist/
-*.egg-info/
-.eggs/
-*.egg
-pip-wheel-metadata/
-wheels/
-
-# Logs
-.logs/
+# ─────────────────────────────────────────────
+# Local generated files and runtime data
+# ─────────────────────────────────────────────
+data/raw/
+data/processed/
+logs/
 *.log
 *.log.*
 
-# Local/generated data
-.data/
-data/
-outputs/
-artifacts/
+# Local background-service files
+launchd/
+
+# Temporary files
 tmp/
 temp/
-
-# IDEs and editors
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
-.idea/
-*.code-workspace
-
-# Local tooling/configuration
-.launchd/
-
-# Node tooling, if used for a frontend or scripts
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
+.cache/
