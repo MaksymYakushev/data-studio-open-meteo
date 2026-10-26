@@ -52,19 +52,29 @@ def latest_loaded_date(client: bigquery.Client) -> date | None:
     return next(iter(result)).latest_date
 
 
+
 def fetch_weather(start_date: date, end_date: date) -> dict:
     params = {
         "latitude": LATITUDE,
         "longitude": LONGITUDE,
-        "start_date": start_date.isoformat(),
-        "end_date": end_date.isoformat(),
+        # Request extra UTC days to cover Prague's local dates.
+        "start_date": (start_date - timedelta(days=1)).isoformat(),
+        "end_date": (end_date + timedelta(days=1)).isoformat(),
         "hourly": HOURLY_FIELDS,
-        "timezone": TIMEZONE,
+        "timezone": "GMT",
+        "timeformat": "unixtime",
     }
-    LOGGER.info("Requesting Open-Meteo Archive data from %s through %s", start_date, end_date)
+
+    LOGGER.info(
+        "Requesting Open-Meteo Archive data from %s through %s UTC",
+        params["start_date"],
+        params["end_date"],
+    )
+
     response = requests.get(URL, params=params, timeout=60)
     response.raise_for_status()
     return response.json()
+
 
 
 def expected_hour_count(day: date) -> int:
@@ -92,14 +102,32 @@ def transform_weather(data: dict, start_date: date, completed_through: date) -> 
     if len(set(lengths.values())) != 1:
         raise RuntimeError(f"Open-Meteo hourly fields have inconsistent lengths: {lengths}")
 
+    
     df = pd.DataFrame(columns)
-    # The existing BigQuery column is TIMESTAMP. The API returns Prague local
-    # wall-clock values without an offset; preserve those calendar values as UTC
-    # timestamps to stay compatible with the existing DATE(datetime) view.
-    df["datetime"] = pd.to_datetime(df["datetime"], errors="raise").dt.tz_localize("UTC")
-    df["humidity"] = pd.to_numeric(df["humidity"], errors="raise").astype("Int64")
+
+    # Convert Unix timestamps into real Prague local times.
+    local_times = pd.to_datetime(
+        df["datetime"], unit="s", utc=True, errors="raise"
+    ).dt.tz_convert(TIMEZONE)
+
+    # Preserve the existing BigQuery convention:
+    # Prague wall-clock timestamps are stored as UTC timestamps.
+    # This keeps DATE(datetime) compatible with the current dashboard.
+    df["datetime"] = (
+        local_times
+        .dt.tz_localize(None)
+        .dt.tz_localize("UTC")
+    )
+
+    df["humidity"] = pd.to_numeric(
+        df["humidity"], errors="raise"
+    ).astype("Int64")
+
     df["city"] = CITY
-    df["date"] = df["datetime"].dt.date
+
+    # Group and validate using the actual Prague calendar date.
+    df["date"] = local_times.dt.date
+
     complete_frames = []
     for day in pd.date_range(start_date, completed_through, freq="D").date:
         day_frame = df[df["date"] == day]
